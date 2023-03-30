@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  todolist:
+    build: .
+    ports:
+      - 3000:3000
+    expose:
+      - "3000"
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - CONN_URL="root:root@tcp(mysql-development:3306)/todolist?charset=utf8mb4&parseTime=True&loc=Local"
+    depends_on:
+      - mysql-development
+    links:
+      - "mysql-development:todolist"
+  mysql-development:
+    image: mysql:latest
+    volumes:
+      - ./data/conf.d:/etc/mysql/conf.d
+      - ./data/logs:/logs
+      - /usr/local/var/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todolist
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"

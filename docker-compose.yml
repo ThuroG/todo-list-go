@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  mysql-development:
+    image: mysql:latest
+    volumes:
+      - ./data/conf.d:/etc/mysql/conf.d
+      - ./data/logs:/logs
+      - /usr/local/var/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: todolist
+    ports:
+      - "3306:3306"
+    expose:
+      - "3306"
